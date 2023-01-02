@@ -1,3 +1,4 @@
+import pickle
 def loadBin(filename, entries=True):
     data = []
     try:
@@ -35,7 +36,6 @@ def loadBin(filename, entries=True):
 #                 pickle.dump(baseData[index],f)
 #         index += 1
 
-usersfile = "/Users/mac/Documents/Python/csproject/data/users.dat"
 # def checkAccount(user):
 #     users = loadBin(usersfile)
 #     print(users)
@@ -47,6 +47,11 @@ usersfile = "/Users/mac/Documents/Python/csproject/data/users.dat"
 #         return False
 #     else:
 #         return key
-# print(checkAccount("dzy"))
+# print(checkAccount("dzy")
 
-print(loadBin(usersfile))
+
+# print(loadBin("data/archives/dzy.dat"))
+
+import os
+os.chdir("./")
+print(os.getcwd())

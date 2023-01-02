@@ -36,10 +36,10 @@ def login():
         return (False, "Guest")
     else:
         if check == password:
-            print("\nLogged In\n")
+            print("\nLogged In")
             return (True, username)
         else:
-            print("\nWrong Password\n")
+            print("\nWrong Password")
             return (False, "Guest")
 
 

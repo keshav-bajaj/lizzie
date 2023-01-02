@@ -1,6 +1,8 @@
-import pickle, socket
-from .script import publish
+import os
+os.chdir('./')
 
+import pickle, socket
+from modules.script import publish
 
 def connected():
     try:
@@ -43,6 +45,7 @@ def search(value, logged, username):
         for archive in archives:
             if archive[0] == value:
                 found = True
+                print()
                 return archive[1]
         if not found:
             if not connected():
@@ -65,7 +68,7 @@ def update_stats(username):
 
 
 def show_archive(username):
-    archives = loadBin(f"../data/archives/{username}.dat")
+    archives = loadBin(f"data/archives/{username}.dat")
     indexes = []
     index = 0
     for archive in archives:
@@ -76,8 +79,9 @@ def show_archive(username):
     n = input("Type the serial number to open any: ")
 
     if n in indexes:
-        print(f"\n{archive[int(n)][0]}\n")
-        print(f"{archive[int(n)][1]}")
+        print(f"\n{archives[int(n)][0]}")
+        print("_"*(len(archives[int(n)][0]) + 5))
+        print(f"{archives[int(n)][1]}")
 
 
 def show_stats():
@@ -85,5 +89,5 @@ def show_stats():
 
 
 def add_archive(username, key, value):
-    with open(f"/Users/mac/Documents/Python/csproject/data/archives/{username}.dat", "ab") as f:
+    with open(f"./data/archives/{username}.dat", "ab") as f:
         pickle.dump([key, value], f)

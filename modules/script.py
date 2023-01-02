@@ -92,6 +92,13 @@ def extractData(soup):
         article_text += para.text
     return article_text
 
+def getFromWiki(tosearch):
+    wiki_wiki = wikipediaapi.Wikipedia('en')
+    page = wiki_wiki.page(tosearch.title())
+    content = page.text
+    if not content:
+        content = False
+    return content
 
 # Main binding function for web scraping
 def publish(value):
@@ -100,34 +107,18 @@ def publish(value):
     soup = bs4.BeautifulSoup(r.text, 'lxml')
     res = extractData(soup)
     corrected = value
-    if r.status_code != 200 or summarize(res) == '':
+    if r.status_code != 200 or res == '':
         corrected = correct(value, True)
         r = get(reform(corrected))
 
     soup = bs4.BeautifulSoup(r.text, 'lxml')
     res = extractData(soup)
 
-    summary = ''
-    try:
-        summary = summarize(res)
-    except:
-        summary = ''
-    if summary != '':
-        return [summary,corrected]
-    else:
+    if res != '':
         fromwiki = getFromWiki(corrected)
         if fromwiki:
             return [fromwiki,corrected]
         else:
             return "I cannot find anything for you"
-
-
-def getFromWiki(tosearch):
-    wiki_wiki = wikipediaapi.Wikipedia('en')
-    page = wiki_wiki.page(tosearch.title())
-    content = page.text
-    if content:
-        content = content[0:content.index('See also')]
     else:
-        content = False
-    return content
+        return [res,corrected]

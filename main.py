@@ -45,19 +45,20 @@ def init():
         init()
 
 
+
 init()
 
 logged_in = False
 prefix = "Guest"
 
 while True:
-    command = input(prefix + " >")
+    command = input(f"\n{prefix} >")
     if command not in commands.keys():
         print("\n#_#\n")
     else:
-        if command in list(commands.keys())[5:9]:
+        if command in list(commands.keys())[5:8]:
             if not logged_in:
-                print("\nYou need to login to use these commands.\n")
+                print("\nYou need to login to use this command.\n")
             else:
                 if command == "logout":
                     print()
@@ -70,7 +71,10 @@ while True:
                     show_stats(prefix)
         elif command == "login":
             print()
-            (logged_in, prefix) = login()
+            if logged_in:
+                print("You need to logout first.")
+            else:
+                (logged_in, prefix) = login()
         elif command == "search":
             print()
             print(search(input("What to search? "), logged_in, prefix))
