@@ -1,5 +1,5 @@
 from modules.script import summarize, contains
-from modules.workers import search, show_stats, show_archive
+from modules.workers import search, show_archive
 from modules.auth import login, sign_up, logout
 
 logo = """ __       ______ ________ ________ ______ ________ 
@@ -23,7 +23,6 @@ commands = {
     "signup": "signup    - to create a new account",
     "logout": "logout    - to logout of your account",
     "archive": "archive   - to see all your saved searches",
-    "stats": "stats     - to see some stats related to your account",
     "quit": "quit      - to quit the program"
 }
 
@@ -46,7 +45,8 @@ def init():
 
 
 
-init()
+# init()
+display_commands()
 
 logged_in = False
 prefix = "Guest"
@@ -54,21 +54,17 @@ prefix = "Guest"
 while True:
     command = input(f"\n{prefix} >")
     if command not in commands.keys():
-        print("\n#_#\n")
+        print("\n#_#")
     else:
-        if command in list(commands.keys())[5:8]:
+        if command in list(commands.keys())[5:7]:
             if not logged_in:
-                print("\nYou need to login to use this command.\n")
+                print("\nYou need to login to use this command.")
             else:
                 if command == "logout":
-                    print()
                     (logged_in, prefix) = logout()
                 elif command == "archive":
                     print()
                     show_archive(prefix)
-                elif command == "stats":
-                    print()
-                    show_stats(prefix)
         elif command == "login":
             print()
             if logged_in:
@@ -80,7 +76,7 @@ while True:
             print(search(input("What to search? "), logged_in, prefix))
         elif command == "summarize":
             print()
-            summarize("Trr")
+            print(summarize(input("Write the text you want to summarise:")))
         elif command == "help":
             print()
             display_commands()
@@ -91,3 +87,4 @@ while True:
             print()
             print("\nSee you soon ~ Lizzie\n")
             break
+

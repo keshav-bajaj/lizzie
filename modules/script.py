@@ -37,11 +37,10 @@ def summarize(text):
 
     summary = ''
     for sentence in sentences:
-        if (sentence in sentenceValue) and (sentenceValue[sentence] > (1.2 * average)):
+        if (sentence in sentenceValue) and (sentenceValue[sentence] > (1.05 * average)):
             summary += " " + sentence
     summary = re.sub(r'==.*?==+', '', summary)
     summary = re.sub(r"\[[0-9]*\]", '', summary)
-    summary
     return summary
 
 
@@ -95,30 +94,28 @@ def extractData(soup):
 def getFromWiki(tosearch):
     wiki_wiki = wikipediaapi.Wikipedia('en')
     page = wiki_wiki.page(tosearch.title())
-    content = page.text
-    if not content:
-        content = False
+    content = False
+    if page.exists():
+        content = page.text
     return content
 
 # Main binding function for web scraping
 def publish(value):
-    r = get(reform(value))
-
-    soup = bs4.BeautifulSoup(r.text, 'lxml')
-    res = extractData(soup)
+    fromwiki = getFromWiki(reform(value))
     corrected = value
-    if r.status_code != 200 or res == '':
+    final = fromwiki
+    if not fromwiki:
         corrected = correct(value, True)
-        r = get(reform(corrected))
-
-    soup = bs4.BeautifulSoup(r.text, 'lxml')
-    res = extractData(soup)
-
-    if res != '':
         fromwiki = getFromWiki(corrected)
-        if fromwiki:
-            return [fromwiki,corrected]
-        else:
-            return "I cannot find anything for you"
-    else:
-        return [res,corrected]
+        final = fromwiki
+
+        if not fromwiki:
+            r = get(reform(corrected))
+            soup = bs4.BeautifulSoup(r.text, 'lxml')
+            res = extractData(soup)
+
+            final = res
+
+            if r.status_code != 200 or res == '':
+                return ["I cannot find anything for you.",False]
+    return [summarize(final),corrected]

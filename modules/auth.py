@@ -1,9 +1,8 @@
 import hashlib
 import pickle
-from datetime import date
 from .workers import loadBin
 
-usersfile = "/Users/mac/Documents/Python/csproject/data/users.dat"
+usersfile = "./data/users.dat"
 username = ""
 password = ""
 
@@ -55,7 +54,7 @@ def sign_up():
     global username
     global password
 
-    users = loadBin("/Users/mac/Documents/Python/csproject/data/users.dat")
+    users = loadBin(usersfile)
     usernames = [i[0] for i in users]
     while username in usernames:
         print("\nUsername taken\n")
@@ -63,15 +62,8 @@ def sign_up():
     confirm = hashlib.sha256(input("Confirm Password: ").encode("utf-8")).hexdigest()
     while confirm != password:
         confirm = hashlib.sha256(input("Confirm Password: ").encode("utf-8")).hexdigest()
-    with open("/Users/mac/Documents/Python/csproject/data/users.dat", "ab") as f:
+    with open(usersfile, "ab") as f:
         pickle.dump([username, password], f)
-    with open(f"/Users/mac/Documents/Python/csproject/data/archives/{username}.dat", "wb") as f:
+    with open(f"./data/archives/{username}.dat", "wb") as f:
         pass
-    # with open(f"../data/stats.dat", "wb") as f:
-    #     pickle.dump([username, {"joined": date.today().strftime("%d/%m/%Y"),
-    #                             "searches": 0,
-    #                             "archive_size": 0}], f)
-    print("\nAccount Created\n")
-
-# with open(usersfile,"wb") as f:
-#     pickle.dump(["dzy","1d506c3220b341a81721408ddfe1674629eb8ecf3d9d5a39caf18681f0cf96cc"],f)
+    print("\nAccount Created")

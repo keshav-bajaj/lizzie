@@ -1,6 +1,3 @@
-import os
-os.chdir('./')
-
 import pickle, socket
 from modules.script import publish
 
@@ -44,28 +41,22 @@ def search(value, logged, username):
         found = False
         for archive in archives:
             if archive[0] == value:
-                found = True
-                print()
                 return archive[1]
         if not found:
             if not connected():
-                print("You are not connected to Internet and there is nothing in archive.")
+                return "You are not connected to Internet and there is nothing in archive :/"
             else:
                 res = publish(value)
                 if res != "I cannot find anything for you":
                     add_archive(username, res[1], res[0])
+                    return res[0]
 
     else:
-        res = publish(value)
-        if type(res) == "list":
+        if connected():
+            res = publish(value)
             return res[0]
         else:
-            return res
-
-
-def update_stats(username):
-    pass
-
+            return "Not Connected To Internet :/"
 
 def show_archive(username):
     archives = loadBin(f"data/archives/{username}.dat")
@@ -82,11 +73,8 @@ def show_archive(username):
         print(f"\n{archives[int(n)][0]}")
         print("_"*(len(archives[int(n)][0]) + 5))
         print(f"{archives[int(n)][1]}")
-
-
-def show_stats():
-    pass
-
+    else:
+        print("Out of Index :/")
 
 def add_archive(username, key, value):
     with open(f"./data/archives/{username}.dat", "ab") as f:
