@@ -45,7 +45,6 @@ def init():
 
 
 
-# init()
 display_commands()
 
 logged_in = False
