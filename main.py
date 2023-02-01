@@ -26,7 +26,6 @@ commands = {
     "quit": "quit      - to quit the program"
 }
 
-
 def display_commands():
     print("\nJust type the command you want to use\n")
     for command in commands.values():
@@ -43,9 +42,7 @@ def init():
         print("\nIncorrect Password\n")
         init()
 
-
-
-display_commands()
+init()
 
 logged_in = False
 prefix = "Guest"

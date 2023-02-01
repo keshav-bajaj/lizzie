@@ -1,6 +1,7 @@
 import pickle, socket
-from modules.script import publish
+from .script import publish
 
+# check if user is connected to internet
 def connected():
     try:
         s = socket.socket()
@@ -10,7 +11,7 @@ def connected():
     except:
         return False
 
-
+# function for reading binary files
 def loadBin(filename, entries=True):
     data = []
     try:
@@ -34,7 +35,7 @@ def loadBin(filename, entries=True):
         return False
     return data
 
-
+# for searching a given term
 def search(value, logged, username):
     if logged:
         archives = loadBin(f"./data/archives/{username}.dat")
@@ -58,6 +59,7 @@ def search(value, logged, username):
         else:
             return "Not Connected To Internet :/"
 
+# displays the archived data
 def show_archive(username):
     archives = loadBin(f"data/archives/{username}.dat")
     indexes = []
@@ -76,6 +78,7 @@ def show_archive(username):
     else:
         print("Out of Index :/")
 
+# adds data to archive
 def add_archive(username, key, value):
     with open(f"./data/archives/{username}.dat", "ab") as f:
         pickle.dump([key, value], f)

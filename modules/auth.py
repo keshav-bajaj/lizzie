@@ -6,7 +6,7 @@ usersfile = "./data/users.dat"
 username = ""
 password = ""
 
-
+# function to get data from user
 def prompt():
     global username
     global password
@@ -14,7 +14,7 @@ def prompt():
     username = input("Username: ").strip()
     password = hashlib.sha256(input("Password: ").encode("utf-8")).hexdigest()
 
-
+# checks if account exists
 def checkAccount(user):
     users = loadBin(usersfile)
     key = ""
@@ -26,7 +26,7 @@ def checkAccount(user):
     else:
         return key
 
-
+# handles login
 def login():
     prompt()
     check = checkAccount(username)
@@ -41,13 +41,13 @@ def login():
             print("\nWrong Password")
             return (False, "Guest")
 
-
+# logouts user
 def logout():
     username = ""
     password = ""
     return (False, "Guest")
 
-
+# handles registration of new users
 def sign_up():
     prompt()
 

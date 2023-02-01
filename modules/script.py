@@ -3,6 +3,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from textblob import TextBlob
 
+# summarizing function
 def summarize(text):
     stopWords = set(stopwords.words("english"))
     words = word_tokenize(text)
